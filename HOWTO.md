@@ -17,7 +17,7 @@ You should have a look to the database from time to time. Don't you want to know
 
 Tests are written as follows:
 
-+ We have a TypeFactory creating Instances using Gson. So an object is created out of a Json Strings. 
++ We have a TypeFactory creating Instances using Gson. So an object is created out of a Json String.  
 + Ok, we have an instance now. This instance now is persisted to database.
 + Next step: we fetch this very (not yet) instance back from database. 
 + Deserialize it and look, if it equals.
