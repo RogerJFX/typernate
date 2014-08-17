@@ -24,6 +24,7 @@ Tests are written as follows:
 + Next step: we fetch this very (not yet) instance back from database. 
 + Deserialize it and look, if it equals the original.
 
+**Important: if you want to work out other tests, keep in mind, we are not using JPA here, but a very weak database interface for only showcase issues. So if you plan to have an entity with a String inside, forget about persisting it using the test setup.**
 
 
 

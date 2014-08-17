@@ -26,6 +26,10 @@ public class SqlExecuterPrep {
      * Don't try to persist Strings. :D You may want to use Hibernate instead...
      * :D:D:D
      */
+    private static String escape(final String in) {
+	return in.replaceAll("'", "''");
+    }
+
     static int persist(final Connection con, final Connectionable myCon, final Object obj) {
 	final Class<?> clazz = obj.getClass();
 	final String tableName = (clazz.getAnnotation(Table.class)).value();
@@ -55,7 +59,7 @@ public class SqlExecuterPrep {
 	    try {
 		final Object value = field.get(obj);
 		if (field.getType() == String.class) {
-		    values.append('\'').append(value).append('\'');
+		    values.append('\'').append(escape(value.toString())).append('\'');
 		} else {
 		    values.append(value);
 		}
