@@ -1,29 +1,55 @@
-# Typernate Test Setup#
+# Further recommendations - JPA
 
-Only works with PostgreSQL at that very moment.
+Using Typernate with JPA should be very easy.
 
-You only should care for folder [typernate]/src/test
+1. Annotate your entity correctly using typernate annotations
+2. After fetching a List of entities, deserialize them using EntityDeserializer
+3. Before persisting an entity, simply pass it to EntitySerializer.
+
+That's all. 
+
+# How to annotate
+
+## Type annotating
+
+Any user defined database type has to be represented in Java as Type-Entity. There are two Annotations:
+
+1. @DbType - annotation for a class
+2. @DbTypeField - annotation for a field in class (that is a member of the db type)
+
+@DbType has one value telling us the name of db type. E.g. @DbType("type_test") makes sure, our class represents the db type "type_test".
+
+@DbTypeField represents a member of the db type. There a two params:
+
+1. index (mandatory): the index of member in the db type.
+2. quote (optional, default false): only for serialization. If true, the value will be wrapped in single quotes.
 
 
-+ First have a look at folder resources. Make up your database using pg_create_db.sql. Should work with PostgreSQL from 8.4 on.
-+ Then (very important, and sorry for that!) edit the File DatabaseTestImpl.java found in src/test/java/de/crazything/sql/typernate/conf. Edit values for: 
-    + dbUser
-    + dbPass
-    + dbConnection (only if you have another database name as "typernate". Did you change pg_create_db.sql?)
-+ If you have Postgres >= 9.2 installed, you may want to have a look at the dump /src/test/pg_json_sample.sql. You will see, that the json column accepts anything. So it is actually NOT typesafe.
+## Entity annotating
 
+If there is a db type in your entity, just have it representated by a Java Object annotated by
 
-Ok then: the tests are here: src/test/java/de/crazything/sql/typernate/TypeSerializerTest.java
+@DbTypeObject
 
-You should have a look to the database from time to time. Don't you want to know what's happening, dude?
+There is one Parameter "target", that is mandatory. It should point to another member of your class representing a Type-Entity or a List of it. This entity never should be persisted, so don't annotate it with @Column (JPA). 
 
-Tests are written as follows:
+Typically we have something like this:
 
-+ We have a TypeFactory creating Instances using Gson. So an object is created out of a Json String.  
-+ Ok, we have an instance now. This instance now is persisted to database.
-+ Next step: we fetch this very (not yet) instance back from database. 
-+ Deserialize it and look, if it equals the original.
+~~~~~~~~~~~
+@Column(name="myTypeFieldInDB")
+@DbTypeObject(target = "myTestType")
+Object nameDoesNotMatter;
+// Ah! So here is our member we can work with further on.
+TestType myTestType;
+~~~~~~~~~~~
 
+Member testType must never contact the database. It's Object nameDoesNotMatter being responsible for communicating with the database. 
+
+EntityDeserializer will translate *Object nameDoesNotMatter* to its target *TestType testType* after being fetched from database.
+
+And the other way:
+
+EntitySerializer will translate *TestType testType* to *Object nameDoesNotMatter* before persiting.
 
 
 
