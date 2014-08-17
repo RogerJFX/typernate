@@ -18,6 +18,14 @@ select * from
            generate_subscripts((itype).test_data, 1) as s
       from tbl_typetest) as foo
  where test_data[s].str = 'bar';
+ 
+-- Better: Lets say, we have bar twice (e.g. at array index 1 AND 2). We would get one row twice.
+-- Ok then:
+select distinct id, test_data from
+   (select id, (itype).test_data,
+           generate_subscripts((itype).test_data, 1) as s
+      from tbl_typetest) as foo
+ where test_data[s].str = 'bar';
 
  -- Select str of first array entry (not index 0!!!)
  select ((itype).test_data[1]).str from tbl_typetest
