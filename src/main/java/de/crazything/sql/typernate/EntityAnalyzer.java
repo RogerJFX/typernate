@@ -25,6 +25,7 @@ import de.crazything.sql.typernate.annotation.DbTypeObject;
  * @author roger
  * 
  * @param <T>
+ *            Type of class.
  */
 public class EntityAnalyzer<T> {
     /**
