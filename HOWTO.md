@@ -43,13 +43,13 @@ Object nameDoesNotMatter;
 TestType myTestType;
 ~~~~~~~~~~~
 
-Member testType must never contact the database. It's Object nameDoesNotMatter being responsible for communicating with the database. 
+Member myTestType must never contact the database. It's Object nameDoesNotMatter being responsible for communicating with the database. 
 
-EntityDeserializer will translate *Object nameDoesNotMatter* to its target *TestType testType* after being fetched from database.
+EntityDeserializer will translate *Object nameDoesNotMatter* to its target *TestType myTestType* after being fetched from database.
 
 And the other way:
 
-EntitySerializer will translate *TestType testType* to *Object nameDoesNotMatter* before persiting.
+EntitySerializer will translate *TestType myTestType* to *Object nameDoesNotMatter* before persiting.
 
 
 

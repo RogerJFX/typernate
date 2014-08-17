@@ -24,15 +24,6 @@ Tests are written as follows:
 + Next step: we fetch this very (not yet) instance back from database. 
 + Deserialize it and look, if it equals the original.
 
-# Further recommendations - JPA
-
-Using Typernate with JPA should be very easy.
-
-1. Annotate your entity correctly using typernate annotations
-2. After fetching a List of entities, deserialize them using EntityDeserializer
-3. Before persisting an entity, simply pass it to EntitySerializer.
-
-That's all. 
 
 
 
