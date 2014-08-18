@@ -53,15 +53,17 @@ public class EntitySerializer {
      *            The entity.
      * @return Ready entity for persist or merge.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings("unchecked")
     public static <T> T serializeEntity(final Class<T> clazz, final T obj) {
 	final AnalyzerResult analyzed = EntityAnalyzer.getResult(clazz);
 	try {
 	    for (final AnalyzedField anaField : analyzed.getFields()) {
 		final Field targetField = anaField.getTypeField();
 		if (anaField.isCollection()) {
-		    anaField.getObjectField().set(obj,
-			    TypeSerializer.serializeTypeArray(anaField.getCollType(), (List) targetField.get(obj)));
+		    anaField.getObjectField().set(
+			    obj,
+			    TypeSerializer.serializeTypeArray((Class<T>) anaField.getCollType(),
+				    (List<T>) targetField.get(obj)));
 		} else {
 		    anaField.getObjectField().set(obj,
 			    TypeSerializer.serializeType((anaField.getTypeType()), targetField.get(obj)));

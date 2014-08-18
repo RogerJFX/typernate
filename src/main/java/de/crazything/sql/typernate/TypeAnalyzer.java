@@ -42,7 +42,6 @@ public class TypeAnalyzer {
      * @return Instance of AnalyzerResult.
      */
     static <T> AnalyzerResult getResult(final Class<T> clazz) {
-	// @SuppressWarnings("unchecked")
 	AnalyzerResult result = MAP.get(clazz);
 	if (result == null) {
 	    result = analyze(clazz);

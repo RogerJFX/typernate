@@ -62,7 +62,7 @@ public class TypeSerializer {
      *            Object to be serialized.
      * @return Serialized object.
      */
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings("unchecked")
     public static <T> String serializeType(final Class<T> clazz, final Object obj) {
 	if (Collection.class.isAssignableFrom(clazz)) {
 	    final Class<T> g = (Class<T>) ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0];
@@ -83,7 +83,7 @@ public class TypeSerializer {
      *            (true) or not.
      * @return Serialized object.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings("unchecked")
     private static <T> String serializeType(final Class<T> clazz, final Object obj, final boolean fromArray) {
 	final AnalyzerResult analyzed = TypeAnalyzer.getResult(clazz);
 	final AnalyzedField[] fields = analyzed.getFields();
@@ -97,7 +97,7 @@ public class TypeSerializer {
 		    if (o == null) {
 			storage[c++] = null;
 		    } else {
-			storage[c++] = serializeTypeArray(anaField.getCollectionType(), (List) o);
+			storage[c++] = serializeTypeArray((Class<T>) anaField.getCollectionType(), (List<T>) o);
 		    }
 		} else if (anaField.isTypeObject()) {
 		    final Object o = anaField.getField().get(obj);

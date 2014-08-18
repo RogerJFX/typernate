@@ -23,7 +23,6 @@ public final class CommonJsonDao<T> {
     /**
      * Static map of DAOs.
      */
-    // @SuppressWarnings("rawtypes")
     private static final Map<Class<?>, CommonJsonDao<?>> MAP = new HashMap<Class<?>, CommonJsonDao<?>>();
     /**
      * Type tag. Ahh, f... it! RTFC!
