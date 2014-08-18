@@ -54,13 +54,8 @@ public class EntitySerializer {
      * @return Ready entity for persist or merge.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static <T> T serializeEntity(final Class<T> clazz, final T obj/*
-									  * ,
-									  * final
-									  * boolean
-									  * obj2null
-									  */) {
-	final AnalyzerResult<T> analyzed = EntityAnalyzer.getResult(clazz);
+    public static <T> T serializeEntity(final Class<T> clazz, final T obj) {
+	final AnalyzerResult analyzed = EntityAnalyzer.getResult(clazz);
 	try {
 	    for (final AnalyzedField anaField : analyzed.getFields()) {
 		final Field targetField = anaField.getTypeField();
@@ -71,9 +66,6 @@ public class EntitySerializer {
 		    anaField.getObjectField().set(obj,
 			    TypeSerializer.serializeType((anaField.getTypeType()), targetField.get(obj)));
 		}
-		// if (obj2null) {
-		// targetField.set(obj, null);
-		// }
 	    }
 	} catch (final IllegalAccessException | SecurityException e) {
 	    throw new RuntimeException("Could not serialize Entity.", e);

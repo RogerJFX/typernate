@@ -50,7 +50,7 @@ public class EntityDeserializer {
      * @return A valid entity for further use.
      */
     public static <T> T deserializeEntity(final Class<T> clazz, final T obj, final boolean obj2null) {
-	final AnalyzerResult<T> analyzed = EntityAnalyzer.getResult(clazz);
+	final AnalyzerResult analyzed = EntityAnalyzer.getResult(clazz);
 	try {
 	    for (final AnalyzedField anaField : analyzed.getFields()) {
 		final Field targetField = anaField.getTypeField();

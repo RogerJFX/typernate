@@ -27,14 +27,12 @@ import de.crazything.sql.typernate.annotation.DbTypeField;
  * 
  * @author roger
  * 
- * @param <T>
- *            Type of class.
  */
-public class TypeAnalyzer<T> {
+public class TypeAnalyzer {
     /**
      * The map to store AnalyzerResults.
      */
-    private static final Map<Class<?>, AnalyzerResult<?>> MAP = new HashMap<Class<?>, AnalyzerResult<?>>();
+    private static final Map<Class<?>, AnalyzerResult> MAP = new HashMap<Class<?>, AnalyzerResult>();
 
     /**
      * Multiton method.
@@ -43,9 +41,9 @@ public class TypeAnalyzer<T> {
      *            Class to ask information for.
      * @return Instance of AnalyzerResult.
      */
-    static <T> AnalyzerResult<T> getResult(final Class<T> clazz) {
-	@SuppressWarnings("unchecked")
-	AnalyzerResult<T> result = (AnalyzerResult<T>) MAP.get(clazz);
+    static <T> AnalyzerResult getResult(final Class<T> clazz) {
+	// @SuppressWarnings("unchecked")
+	AnalyzerResult result = MAP.get(clazz);
 	if (result == null) {
 	    result = analyze(clazz);
 	    MAP.put(clazz, result);
@@ -89,7 +87,7 @@ public class TypeAnalyzer<T> {
      * @return Instance of AnalyzerResult. AnalyzerResult should provide every
      *         information we need.
      */
-    private static <T> AnalyzerResult<T> analyze(final Class<T> clazz) {
+    private static <T> AnalyzerResult analyze(final Class<T> clazz) {
 	final Field[] fields = clazz.getDeclaredFields();
 	final int annoFieldCount = fieldCount(fields);
 	final AnalyzedField[] annoFields = new AnalyzedField[annoFieldCount];
@@ -118,7 +116,7 @@ public class TypeAnalyzer<T> {
 	    }
 	}
 	Arrays.sort(annoFields, new FieldIndexComparator());
-	final AnalyzerResult<T> result = new AnalyzerResult<T>();
+	final AnalyzerResult result = new AnalyzerResult();
 	result.fields = annoFields;
 	final DbType clazzAnno = clazz.getAnnotation(DbType.class);
 	if (clazzAnno == null) {
@@ -136,7 +134,7 @@ public class TypeAnalyzer<T> {
      * @param <T>
      *            Type of class.
      */
-    static class AnalyzerResult<T> {
+    static class AnalyzerResult {
 	/**
 	 * Interesting fields.
 	 */

@@ -1,21 +1,59 @@
 package de.crazything.sql.typernate.parse;
 
 public class PgParserHelper extends ParserHelper {
+    /**
+     * Postgres char for start of object.
+     */
+    private static final char OBJECT_OPEN = '(';
+    /**
+     * Postgres char for end of object.
+     */
+    private static final char OBJECT_CLOSE = ')';
+    /**
+     * Postgres char for start of array.
+     */
+    private static final char ARRAY_OPEN = '{';
+    /**
+     * Postgres char for end of array.
+     */
+    private static final char ARRAY_CLOSE = '}';
+    /**
+     * Wrapper like CSV.
+     */
+    private static final char WRAPPER = '"';
+    /**
+     * Additional escape.
+     */
+    private static final char ESCAPE = '\\';
+    /**
+     * The CSV like comma in PostgreSQL.
+     */
+    private static final char COMMA = ',';
+
+    @Override
+    public int findObjectDataStart(final char[] in) {
+	for (int i = 0; i < in.length; i++) {
+	    if (in[i] == OBJECT_OPEN) {
+		return i + 1;
+	    }
+	}
+	return -1;
+    }
 
     @Override
     public boolean isArray(final String in) {
 	final String workString = in.trim();
-	return workString.charAt(0) == '{' && workString.charAt(workString.length() - 1) == '}';
+	return workString.charAt(0) == ARRAY_OPEN && workString.charAt(workString.length() - 1) == ARRAY_CLOSE;
     }
 
     @Override
     public String stripQuotes(final String in) {
-	return this.strip(in, '"', '"');
+	return this.strip(in, WRAPPER, WRAPPER);
     }
 
     @Override
     public String stripArray(final String in) {
-	return this.strip(in, '{', '}');
+	return this.strip(in, ARRAY_OPEN, ARRAY_CLOSE);
     }
 
     @Override
@@ -30,7 +68,7 @@ public class PgParserHelper extends ParserHelper {
 	boolean escaped = false;
 	int firstBracket = from;
 	for (int i = from; i < line.length; i++) {
-	    if (line[i] == '(') {
+	    if (line[i] == OBJECT_OPEN) {
 		firstBracket = i;
 		break;
 	    }
@@ -38,7 +76,7 @@ public class PgParserHelper extends ParserHelper {
 	final char[] result = new char[line.length - firstBracket];
 	for (int i = firstBracket; i < line.length; i++) {
 	    switch (line[i]) {
-	    case '"':
+	    case WRAPPER:
 		result[cursor++] = line[i];
 		if (i + 1 < line.length && line[i + 1] == '"') {
 		    result[cursor++] = line[++i];
@@ -47,13 +85,13 @@ public class PgParserHelper extends ParserHelper {
 		    escaped = !escaped;
 		}
 		break;
-	    case '(':
+	    case OBJECT_OPEN:
 		if (!escaped) {
 		    ++bracketCounter;
 		}
 		result[cursor++] = line[i];
 		break;
-	    case ')':
+	    case OBJECT_CLOSE:
 		if (!escaped) {
 		    --bracketCounter;
 		}
@@ -61,11 +99,6 @@ public class PgParserHelper extends ParserHelper {
 		if (!escaped && bracketCounter == 0) {
 		    return new ParseResult(new String(result, 0, cursor).trim(), i + 1);
 		}
-		// final char[] lookBehind = lookBehind(line, i, 2);
-		// if (escaped && lookBehind[1] == '"') {
-		// return new ParseResult(new String(result, 0, cursor).trim(),
-		// i);
-		// }
 		break;
 	    default:
 		result[cursor++] = line[i];
@@ -81,17 +114,17 @@ public class PgParserHelper extends ParserHelper {
 	boolean escaped = false;
 	for (int i = from; i < line.length; i++) {
 	    switch (line[i]) {
-	    case '"':
+	    case WRAPPER:
 		if (i + 1 < line.length && line[i + 1] == '"') {
 		    result[cursor++] = line[i++];
 		} else {
 		    escaped = !escaped;
 		}
 		break;
-	    case '\\':
+	    case ESCAPE:
 		break;
-	    case ',':
-	    case ')':
+	    case COMMA:
+	    case OBJECT_CLOSE:
 		if (!escaped) {
 		    return new ParseResult(new String(result, 0, cursor).trim(), i + 1);
 		}

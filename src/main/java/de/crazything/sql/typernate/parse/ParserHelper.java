@@ -59,6 +59,8 @@ public abstract class ParserHelper {
 	}
     }
 
+    public abstract int findObjectDataStart(char[] in);
+
     /**
      * Get rid of an array indicator.
      * 

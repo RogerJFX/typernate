@@ -60,11 +60,10 @@ public class TypeDeserializer {
      * @return A valid object.
      */
     public static <T> T deserializeType(final Class<T> clazz, final String rawData) {
-	final AnalyzerResult<T> analyzed = TypeAnalyzer.getResult(clazz);
+	final AnalyzerResult analyzed = TypeAnalyzer.getResult(clazz);
 	final String objectData = parserHelper.stripQuotes(parserHelper.nextObject(rawData.toCharArray(), 0).result);
 	final char[] cData = objectData.toCharArray();
-	// TODO This is not precise
-	int cursor = 1; // Mind the '('
+	int cursor = parserHelper.findObjectDataStart(cData);
 	T result = null;
 	try {
 	    result = clazz.newInstance();

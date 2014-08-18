@@ -23,8 +23,8 @@ public final class CommonJsonDao<T> {
     /**
      * Static map of DAOs.
      */
-    @SuppressWarnings("rawtypes")
-    private static final Map<Class, CommonJsonDao> MAP = new HashMap<Class, CommonJsonDao>();
+    // @SuppressWarnings("rawtypes")
+    private static final Map<Class<?>, CommonJsonDao<?>> MAP = new HashMap<Class<?>, CommonJsonDao<?>>();
     /**
      * Type tag. Ahh, f... it! RTFC!
      */
@@ -52,7 +52,7 @@ public final class CommonJsonDao<T> {
     // No synchronized! HashMap does not allow duplettes...
     public static <T> CommonJsonDao<T> getInstance(final Class<T> clazz) {
 	@SuppressWarnings("unchecked")
-	CommonJsonDao<T> result = MAP.get(clazz);
+	CommonJsonDao<T> result = (CommonJsonDao<T>) MAP.get(clazz);
 	if (result == null) {
 	    result = new CommonJsonDao<T>(clazz);
 	    MAP.put(clazz, result);

@@ -85,7 +85,7 @@ public class TypeSerializer {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private static <T> String serializeType(final Class<T> clazz, final Object obj, final boolean fromArray) {
-	final AnalyzerResult<T> analyzed = TypeAnalyzer.getResult(clazz);
+	final AnalyzerResult analyzed = TypeAnalyzer.getResult(clazz);
 	final AnalyzedField[] fields = analyzed.getFields();
 	final String[] storage = new String[fields.length];
 	int c = 0;
