@@ -41,6 +41,18 @@ CREATE OR REPLACE RULE "_UPDATE" AS
 update view_typetest_single set i_str = 'foo bar' where o_id = 1;
 update view_typetest_single set i_id = 777 where i_str = 'foo bar';
 insert into view_typetest_single (id, iname, i_id, i_str) values (-1, 'Dagobert', 1234, 'inner Dagobert');
+
+-- Having Postgres >= 9.3, the following is possible.
+-- So the typernate deserializer is not needed necessarily, since Jackson or Gson could do the job then.
+select id, row_to_json(itype) from tbl_typetest;
+
+
+-- Postgre 9.4 will support something like this:
+-- NO! IT DOES NOT WORK! Besides, it can't!
+select json_to_record('[json]') as type_test;
+
+-- The only thing yu can do is this (just a filter thus, and not embeddable in a row):
+select * from json_to_record('[json string]') as x(a int, b text);
   
   
   
