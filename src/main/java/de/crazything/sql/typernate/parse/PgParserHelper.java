@@ -123,9 +123,12 @@ public class PgParserHelper extends ParserHelper {
 		break;
 	    case ESCAPE:
 		final char[] behind = this.lookBehind(line, i, 3);
-		if (behind[1] == ESCAPE && behind[2] != WRAPPER) {
-		    result[cursor++] = line[i++];
-		    // result[cursor++] = line[i++]; // Don't do that!
+		if (behind[1] == ESCAPE) {
+		    if (behind[2] == WRAPPER) {
+			i++;
+		    } else {
+			result[cursor++] = line[i++];
+		    }
 		}
 		break;
 	    case COMMA:
