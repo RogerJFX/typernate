@@ -19,6 +19,13 @@ public class TypeFactory {
 
     public static final String JSON_TEST_NASTY_LIST = "{\"id\":123456,\"name\":\"admin\",\"list\":"
 	    + "[{\"innerId\":1,\"string\":\"nasty:f(o},'''#o\"},{\"innerId\":2,\"string\":\"nasty:b\\\"ar\"}]}";
+    /**
+     * Keep in mind: admi___\\\\___n will be admi___\___n in the end. It parsed
+     * from JSON to Java to database (database will escape as well, but shown as
+     * admi___\\___n).
+     */
+    public static final String JSON_TEST_VERY_NASTY_LIST = "{\"id\":123456,\"name\":\"admi___\\\\___\",\"list\":"
+	    + "[{\"innerId\":1,\"string\":\"nasty###\\\"###:f(o},'''#o\"},{\"innerId\":2,\"string\":\"nasty:b###\\\"###ar\"}]}";
 
     public static <T> T generateObject(final Class<T> clazz, final String json) {
 	return CommonJsonDao.getInstance(clazz).createJsonObject(json);

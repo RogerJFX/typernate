@@ -19,7 +19,13 @@ public class TestType {
 
     @Override
     public String toString() {
-	return this.id + "," + this.name + ", list.size: " + this.list;
+	final StringBuilder listBuilder = new StringBuilder();
+	if (this.list != null) {
+	    for (final TestInnerType t : this.list) {
+		listBuilder.append(t.toString());
+	    }
+	}
+	return this.id + "," + this.name + "," + listBuilder.toString();
     }
 
     public int getId() {

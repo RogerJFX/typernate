@@ -79,7 +79,7 @@ public class TypeSerializerTest {
 
     }
 
-    private void doTestTypeWithList(final String jsonString) {
+    private void doTestTypeWithList(final String jsonString, final boolean verbose) {
 	final TestType testObj = TypeFactory.generateObject(TestType.class, jsonString);
 	final String test = TypeSerializer.serializeType(TestType.class, testObj);
 	// Put it to database
@@ -91,6 +91,16 @@ public class TypeSerializerTest {
 		"select itype as rawType from tbl_typetest where id=" + rowId);
 	final String testString = wrappers.get(0).rawType.getValue();
 	final TestType from = TypeDeserializer.deserializeType(TestType.class, testString);
+	if (verbose) {
+	    System.out.println("###### begin should equal");
+	    System.out.println(testObj.toString());
+	    System.out.println(from.toString());
+	    System.out.println("String EQUALS: " + (testObj.toString().equals(from.toString())));
+	    System.out.println("If it's equal, but Assertion failes, there is some problem elsewhere.");
+	    System.out
+		    .println("Are you sure your escapes are set correctly? Was it the Json-Parser swallowing some errors?");
+	    System.out.println("###### end should equal");
+	}
 	final String jsonResult = cleanStringForAssertEqual(CommonJsonDao.getInstance(TestType.class).createJsonString(
 		from));
 	// Something changed???
@@ -124,19 +134,25 @@ public class TypeSerializerTest {
 
     @Test(enabled = true)
     public void testTypeWithList() {
-	this.doTestTypeWithList(TypeFactory.JSON_TEST_TYPE_WITH_LIST);
+	this.doTestTypeWithList(TypeFactory.JSON_TEST_TYPE_WITH_LIST, false);
 
     }
 
     @Test(enabled = true)
     public void testTypeWithNastyList() {
-	this.doTestTypeWithList(TypeFactory.JSON_TEST_NASTY_LIST);
+	this.doTestTypeWithList(TypeFactory.JSON_TEST_NASTY_LIST, false);
+
+    }
+
+    @Test(enabled = true)
+    public void testTypeWithVeryNastyList() {
+	this.doTestTypeWithList(TypeFactory.JSON_TEST_VERY_NASTY_LIST, true);
 
     }
 
     @Test(enabled = true)
     public void testTypeWithListNull() {
-	this.doTestTypeWithList(TypeFactory.JSON_TEST_TYPE_WITH_LIST_NULL);
+	this.doTestTypeWithList(TypeFactory.JSON_TEST_TYPE_WITH_LIST_NULL, false);
 
     }
 }

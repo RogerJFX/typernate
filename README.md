@@ -4,7 +4,7 @@
 
 ##### Written in Java, works currently with PostgreSQL only.
 
-**Version: 0.0.1**
+**Version: 0.1.1**
 
 **Author: Roger F. Hösl**
 

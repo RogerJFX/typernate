@@ -109,7 +109,11 @@ public class TypeAnalyzer {
 		    af.collection = true;
 		    af.collType = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
 		} else {
-		    af.string = field.getType() == String.class;
+		    final boolean string = field.getType() == String.class;
+		    af.string = string;
+		    if (string) {
+			af.quote = true;
+		    }
 		}
 		annoFields[count++] = af;
 	    }
