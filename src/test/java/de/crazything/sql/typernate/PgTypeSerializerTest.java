@@ -15,6 +15,7 @@ import de.crazything.sql.typernate.entities.TestEntityWithList;
 import de.crazything.sql.typernate.entities.TestType;
 import de.crazything.sql.typernate.entities.TestTypeSingle;
 import de.crazything.sql.typernate.factory.TypeFactory;
+import de.crazything.sql.typernate.parse.PgParserHelper;
 import de.crazything.sql.typernate.testwrappers.IntWrapper;
 import de.crazything.sql.typernate.testwrappers.TempWrapper;
 
@@ -26,6 +27,8 @@ public class PgTypeSerializerTest {
     @BeforeClass
     private void init() {
 	DbManager.init(new Database[] { new PgDatabaseTestImpl() });
+	TypeSerializer.setParserHelper(new PgParserHelper());
+	TypeDeserializer.setParserHelper(new PgParserHelper());
     }
 
     private static String cleanStringForAssertEqual(final String in) {
