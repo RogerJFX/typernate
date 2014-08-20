@@ -13,7 +13,7 @@ public class TestType {
     int id;
     @DbTypeField(index = 1, quote = true)
     String name;
-    @DbTypeField(index = 2)
+    @DbTypeField(index = 2, varrayType = "type_test_int_string_varray")
     @SerializedName("list")
     List<TestInnerType> list;
 

@@ -2,7 +2,7 @@ package de.crazything.sql.typernate.conf;
 
 import de.crazything.sql.Database;
 
-public class DatabaseTestImpl implements Database {
+public class PgDatabaseTestImpl implements Database {
     private final String name = "mydb";
     private final String dbUser = "roger";
     private final String dbPass = "sf3";

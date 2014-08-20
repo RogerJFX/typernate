@@ -9,6 +9,8 @@ public class TypeFactory {
 
     public static final String JSON_TEST_ENTITY = "{\"testType\":{\"id\":123456,\"name\":\"admin\",\"list\":[{\"innerId\":1,\"string\":\"foo\"},{\"innerId\":1}]}}";
 
+    public static final String JSON_TEST_ENTITY_TYPE = "{\"id\":123456,\"name\":\"admin\",\"list\":[{\"innerId\":1,\"string\":\"foo\"},{\"innerId\":1}]}";
+
     public static final String JSON_TEST_ENTITY_WITH_LIST = "{\"testType\":[{\"id\":123456,\"name\":\"ad'min\",\"list\":[{\"innerId\":1,\"string\":\"foo\"},{\"innerId\":1}]},"
 	    + "{\"id\":987654,\"name\":\"roger#\",\"list\":[{\"innerId\":1,\"string\":\"foo\"},{\"innerId\":2,\"string\":\"bar\"}]}"
 	    + "]}";

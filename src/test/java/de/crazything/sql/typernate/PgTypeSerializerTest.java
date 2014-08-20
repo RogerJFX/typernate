@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import de.crazything.json.dao.CommonJsonDao;
 import de.crazything.sql.Database;
 import de.crazything.sql.DbManager;
-import de.crazything.sql.typernate.conf.DatabaseTestImpl;
+import de.crazything.sql.typernate.conf.PgDatabaseTestImpl;
 import de.crazything.sql.typernate.entities.TestEntity;
 import de.crazything.sql.typernate.entities.TestEntityWithList;
 import de.crazything.sql.typernate.entities.TestType;
@@ -21,11 +21,11 @@ import de.crazything.sql.typernate.testwrappers.TempWrapper;
 //import de.crazything.app.stock.conf.ConfiguratorMock;
 
 @Test
-public class TypeSerializerTest {
+public class PgTypeSerializerTest {
 
     @BeforeClass
     private void init() {
-	DbManager.init(new Database[] { new DatabaseTestImpl() });
+	DbManager.init(new Database[] { new PgDatabaseTestImpl() });
     }
 
     private static String cleanStringForAssertEqual(final String in) {

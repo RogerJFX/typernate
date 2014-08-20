@@ -13,7 +13,7 @@ public class TestInnerType {
 
     @Override
     public String toString() {
-	return '(' + this.innerId + "_:_" + this.string + ')';
+	return "(" + this.innerId + "_:_" + this.string + ")";
     }
 
     public String getString() {
