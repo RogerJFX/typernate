@@ -23,7 +23,11 @@ public class TypeSerializer {
      * Temp.. We should parameterize this, if we once want to use e.g. ORACLE as
      * well. But then again this class itself may need some modifications.
      */
-    private static final ParserHelper parserHelper = new PgParserHelper();
+    private static ParserHelper parserHelper = new PgParserHelper();
+
+    public static void setParserHelper(final ParserHelper ph) {
+	parserHelper = ph;
+    }
 
     /**
      * Is there an array, maybe as a db type wrapped in another one?
@@ -34,7 +38,7 @@ public class TypeSerializer {
      *            The List.
      * @return Serialized List as array.
      */
-    static <T> String serializeTypeArray(final Class<T> clazz, final List<T> coll) {
+    static <T> String serializeTypeArray(final Class<T> clazz, final List<T> coll, final String oraVarray) {
 	if (coll == null) {
 	    return "";
 	}
@@ -48,7 +52,7 @@ public class TypeSerializer {
 	    }
 	}
 	final DbType clazzAnno = clazz.getAnnotation(DbType.class);
-	return parserHelper.wrapArray(builder, clazzAnno.value());
+	return parserHelper.wrapArray(builder, clazzAnno.value(), oraVarray);
     }
 
     /**
@@ -66,7 +70,7 @@ public class TypeSerializer {
     public static <T> String serializeType(final Class<T> clazz, final Object obj) {
 	if (Collection.class.isAssignableFrom(clazz)) {
 	    final Class<T> g = (Class<T>) ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0];
-	    return serializeTypeArray(g, (List<T>) obj);
+	    return serializeTypeArray(g, (List<T>) obj, "");
 	}
 	return serializeType(clazz, obj, false);
     }
@@ -97,7 +101,8 @@ public class TypeSerializer {
 		    if (o == null) {
 			storage[c++] = null;
 		    } else {
-			storage[c++] = serializeTypeArray((Class<T>) anaField.getCollectionType(), (List<T>) o);
+			storage[c++] = serializeTypeArray((Class<T>) anaField.getCollectionType(), (List<T>) o,
+				anaField.getOraVarray());
 		    }
 		} else if (anaField.isTypeObject()) {
 		    final Object o = anaField.getField().get(obj);
@@ -123,32 +128,33 @@ public class TypeSerializer {
 	} catch (IllegalArgumentException | IllegalAccessException e) {
 	    throw new RuntimeException("Could not serialize Type.", e);
 	}
-	return toString(storage, analyzed.getType().value(), fromArray);
+	return parserHelper.doSerialize(storage, analyzed.getType().value(), fromArray);
     }
 
-    /**
-     * All is put together to String here.
-     * 
-     * @param storage
-     *            Lines of entries.
-     * @param dbType
-     *            Db type of surrounding object. May be important for e.g.
-     *            Postgres casts (Use of "anyelement"???).
-     * @param fromArray
-     *            Determines, if the method is called from serializeTypeArray
-     *            (true) or not.
-     * @return String.
-     */
-    public static String toString(final String[] storage, final String dbType, final boolean fromArray) {
-	StringBuilder builder = new StringBuilder();
-	builder.append(storage[0]);
-	for (int i = 1; i < storage.length; i++) {
-	    builder.append("," + storage[i]);
-	}
-	builder = parserHelper.wrapObject(builder);
-	if (!fromArray) {
-	    builder = parserHelper.appendType(builder, dbType);
-	}
-	return builder.toString();
-    }
+    // /**
+    // * All is put together to String here.
+    // *
+    // * @param storage
+    // * Lines of entries.
+    // * @param dbType
+    // * Db type of surrounding object. May be important for e.g.
+    // * Postgres casts (Use of "anyelement"???).
+    // * @param fromArray
+    // * Determines, if the method is called from serializeTypeArray
+    // * (true) or not.
+    // * @return String.
+    // */
+    // public static String toString(final String[] storage, final String
+    // dbType, final boolean fromArray) {
+    // StringBuilder builder = new StringBuilder();
+    // builder.append(storage[0]);
+    // for (int i = 1; i < storage.length; i++) {
+    // builder.append("," + storage[i]);
+    // }
+    // builder = parserHelper.wrapObject(builder);
+    // if (!fromArray) {
+    // builder = parserHelper.appendType(builder, dbType);
+    // }
+    // return builder.toString();
+    // }
 }

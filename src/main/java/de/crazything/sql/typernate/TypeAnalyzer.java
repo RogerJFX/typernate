@@ -107,6 +107,7 @@ public class TypeAnalyzer {
 		    af.objType = type;
 		} else if (List.class.isAssignableFrom(type)) {
 		    af.collection = true;
+		    af.oraVarray = field.getAnnotation(DbTypeField.class).varrayType();
 		    af.collType = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
 		} else {
 		    final boolean string = field.getType() == String.class;
@@ -183,6 +184,12 @@ public class TypeAnalyzer {
 	 * If a collection: what Type is it? What's the T in List&lt;T&gt;?
 	 */
 	private Class<?> collType;
+
+	/**
+	 * Oracle does not know Array types.
+	 */
+	private String oraVarray;
+
 	/**
 	 * If nested type: what class is it?
 	 */
@@ -227,6 +234,10 @@ public class TypeAnalyzer {
 
 	public boolean isString() {
 	    return this.string;
+	}
+
+	public String getOraVarray() {
+	    return this.oraVarray;
 	}
     }
 

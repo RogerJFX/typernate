@@ -2,6 +2,7 @@ package de.crazything.sql;
 
 //CHECKSTYLE:OFF
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -76,7 +77,7 @@ public class SqlExecuterPrep {
 	names.append(')');
 	values.append(')');
 	query.append(names).append(" values ").append(values);
-	// System.out.println(query.toString());
+	System.out.println(query.toString());
 	return executeQuery(query.toString(), con, myCon);
     }
 
@@ -145,7 +146,16 @@ public class SqlExecuterPrep {
 			continue;
 		    }
 		    f.setAccessible(true);
-		    f.set(item, res.getObject(name));
+		    final Object obj = res.getObject(name);
+		    if (obj.getClass() == BigDecimal.class) {
+			// Class<?>fieldClass = f.getType();
+			// System.out.println(fieldClass.getName());
+			final BigDecimal bd = (BigDecimal) obj;
+			// ARG! JUST FOR TESTING... I'M A BIT IN HURRY
+			f.set(item, bd.intValue());
+		    } else {
+			f.set(item, res.getObject(name));
+		    }
 		}
 		result.add(item);
 	    }

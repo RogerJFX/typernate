@@ -144,7 +144,7 @@ public class PgParserHelper extends ParserHelper {
     }
 
     @Override
-    public String wrapArray(final StringBuilder in, final String type) {
+    public String wrapArray(final StringBuilder in, final String type, final String oraVarray) {
 	final StringBuilder builder = new StringBuilder();
 	builder.append("array[").append(in).append("]::").append(type).append("[]");
 	return builder.toString();
@@ -162,5 +162,24 @@ public class PgParserHelper extends ParserHelper {
 	final StringBuilder builder = new StringBuilder();
 	builder.append(in).append("::").append(type);
 	return builder;
+    }
+
+    @Override
+    public String doSerialize(final String[] values, final String dbType, final boolean fromArray) {
+	StringBuilder builder = new StringBuilder();
+	builder.append(values[0]);
+	for (int i = 1; i < values.length; i++) {
+	    builder.append("," + values[i]);
+	}
+	builder = this.wrapObject(builder);
+	if (!fromArray) {
+	    builder = this.appendType(builder, dbType);
+	}
+	return builder.toString();
+    }
+
+    @Override
+    public boolean isSqlStructSupported() {
+	return false;
     }
 }

@@ -23,7 +23,11 @@ public class TypeDeserializer {
      * well. But then again this class itself may need some modifications.
      * However probably not as many as in TypeSerializer.
      */
-    private static final ParserHelper parserHelper = new PgParserHelper();
+    private static ParserHelper parserHelper = new PgParserHelper();
+
+    public static void setParserHelper(final ParserHelper ph) {
+	parserHelper = ph;
+    }
 
     /**
      * If it's an array, we normally have to do some work in a loop.
@@ -60,6 +64,7 @@ public class TypeDeserializer {
      * @return A valid object.
      */
     public static <T> T deserializeType(final Class<T> clazz, final String rawData) {
+	System.out.println(rawData.toString());
 	final AnalyzerResult analyzed = TypeAnalyzer.getResult(clazz);
 	final String objectData = parserHelper.stripQuotes(parserHelper.nextObject(rawData.toCharArray(), 0).result);
 	final char[] cData = objectData.toCharArray();

@@ -120,10 +120,12 @@ public abstract class ParserHelper {
      * @param type
      *            db type for letting the database know where to cast, if in
      *            doubt.
+     * @param oraVarray
+     *            Special value for old databases like Oracle.
      * @return wrapped array, so the database might get along with it.
      */
 
-    public abstract String wrapArray(final StringBuilder in, final String type);
+    public abstract String wrapArray(final StringBuilder in, final String type, final String oraVarray);
 
     /**
      * Wraps an Object (db type).
@@ -154,4 +156,8 @@ public abstract class ParserHelper {
      * @return Database may be satisfied.
      */
     public abstract String escapeString(final String in);
+
+    public abstract String doSerialize(final String[] storage, final String dbType, final boolean fromArray);
+
+    public abstract boolean isSqlStructSupported();
 }

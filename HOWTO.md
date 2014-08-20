@@ -22,7 +22,7 @@ Any user defined database type has to be represented in Java as Type-Entity. The
 @DbTypeField represents a member of the db type. There a two params:
 
 1. index (mandatory): the index of member in the db type.
-2. quote (optional, default false): only for serialization. If true, the value will be wrapped in single quotes.
+2. quote (optional, default false): only for serialization. If true, the value will be wrapped in single quotes. If the field type is String.class, quote will automatically set to true.
 
 
 ## Entity annotating

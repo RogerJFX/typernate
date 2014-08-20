@@ -1,6 +1,8 @@
 package de.crazything.sql.typernate;
 
 import java.lang.reflect.Field;
+import java.sql.Array;
+import java.sql.Struct;
 import java.util.List;
 
 import de.crazything.sql.typernate.EntityAnalyzer.AnalyzedField;
@@ -29,11 +31,16 @@ public class EntityDeserializer {
      * @return A modified List of Entities. All type based objects will be
      *         mapped for all entries.
      */
-    public static <T> List<T> deserializeEntities(final Class<T> clazz, final List<T> list, final boolean obj2null) {
+    public static <T> List<T> deserializeEntities(final Class<T> clazz, final List<T> list, final boolean obj2null,
+	    final boolean structs) {
 	for (T t : list) {
-	    t = deserializeEntity(clazz, t, obj2null);
+	    t = deserializeEntity(clazz, t, obj2null, structs);
 	}
 	return list;
+    }
+
+    public static <T> T deserializeEntity(final Class<T> clazz, final T obj, final boolean obj2null) {
+	return deserializeEntity(clazz, obj, obj2null, false);
     }
 
     /**
@@ -49,21 +56,32 @@ public class EntityDeserializer {
      *            be used a second time.
      * @return A valid entity for further use.
      */
-    public static <T> T deserializeEntity(final Class<T> clazz, final T obj, final boolean obj2null) {
+    public static <T> T deserializeEntity(final Class<T> clazz, final T obj, final boolean obj2null,
+	    final boolean structs) {
 	final AnalyzerResult analyzed = EntityAnalyzer.getResult(clazz);
 	try {
 	    for (final AnalyzedField anaField : analyzed.getFields()) {
 		final Field targetField = anaField.getTypeField();
-		if (anaField.isCollection()) {
-		    targetField.set(
-			    obj,
-			    TypeDeserializer.deserializeTypeArray(anaField.getCollType(), anaField.getObjectField()
-				    .get(obj).toString()));
+		if (structs) {
+		    if (anaField.isCollection()) {
+			targetField.set(obj, TypeStructDeserializer.deserializeTypeArray(anaField.getCollType(),
+				(Array) anaField.getObjectField().get(obj)));
+		    } else {
+			targetField.set(obj, TypeStructDeserializer.deserializeType(anaField.getTypeType(),
+				(Struct) anaField.getObjectField().get(obj)));
+		    }
 		} else {
-		    targetField.set(
-			    obj,
-			    TypeDeserializer.deserializeType(anaField.getTypeType(), anaField.getObjectField().get(obj)
-				    .toString()));
+		    if (anaField.isCollection()) {
+			targetField.set(
+				obj,
+				TypeDeserializer.deserializeTypeArray(anaField.getCollType(), anaField.getObjectField()
+					.get(obj).toString()));
+		    } else {
+			targetField.set(
+				obj,
+				TypeDeserializer.deserializeType(anaField.getTypeType(),
+					anaField.getObjectField().get(obj).toString()));
+		    }
 		}
 		if (obj2null) {
 		    anaField.getObjectField().set(obj, null);

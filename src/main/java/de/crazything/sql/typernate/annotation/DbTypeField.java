@@ -16,7 +16,19 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface DbTypeField {
+    /**
+     * Very important!!! Indicates the position of field in db type.
+     * 
+     * @return Postion.
+     */
     int index();
 
     boolean quote() default false;
+
+    /**
+     * Only for ORACLE.
+     * 
+     * @return Name of ORACLE specific varray type.
+     */
+    String varrayType() default "";
 }
