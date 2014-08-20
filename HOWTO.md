@@ -23,6 +23,7 @@ Any user defined database type has to be represented in Java as Type-Entity. The
 
 1. index (mandatory): the index of member in the db type.
 2. quote (optional, default false): only for serialization. If true, the value will be wrapped in single quotes. If the field type is String.class, quote will automatically set to true.
+3. varrayType (optional, default ""): if you are on ORACLE, you should know, what this means. ORACLE needs a wrapper type for arrays of type varray. The name of this type should be supported here. Postgres serializer will ignore it.
 
 
 ## Entity annotating
