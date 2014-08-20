@@ -2,6 +2,10 @@
 
 Only works with PostgreSQL at that very moment.
 
+Ok, I'm wrong here. It already works with ORACLE.
+
+Documentation comming soon.
+
 You only should care for folder [typernate]/src/test
 
 
