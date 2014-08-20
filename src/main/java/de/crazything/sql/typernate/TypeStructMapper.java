@@ -23,7 +23,7 @@ import de.crazything.sql.typernate.parse.PrimitiveAssignerUtil;
  * @author roger
  * 
  */
-public class TypeStructDeserializer {
+public class TypeStructMapper {
 
     /**
      * If it's an array, we normally have to do some work in a loop.

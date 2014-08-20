@@ -64,10 +64,10 @@ public class EntityDeserializer {
 		final Field targetField = anaField.getTypeField();
 		if (structs) {
 		    if (anaField.isCollection()) {
-			targetField.set(obj, TypeStructDeserializer.deserializeTypeArray(anaField.getCollType(),
+			targetField.set(obj, TypeStructMapper.deserializeTypeArray(anaField.getCollType(),
 				(Array) anaField.getObjectField().get(obj)));
 		    } else {
-			targetField.set(obj, TypeStructDeserializer.deserializeType(anaField.getTypeType(),
+			targetField.set(obj, TypeStructMapper.deserializeType(anaField.getTypeType(),
 				(Struct) anaField.getObjectField().get(obj)));
 		    }
 		} else {

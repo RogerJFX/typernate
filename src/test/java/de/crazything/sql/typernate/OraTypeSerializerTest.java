@@ -52,7 +52,7 @@ public class OraTypeSerializerTest {
 	final List<StructWrapper> wrappers = DbManager.fetch("mydb", StructWrapper.class,
 		"select itype as rawType from tbl_typetest where id=(select max(id) from tbl_typetest)");
 	final Struct testString = wrappers.get(0).rawType;
-	final TestType from = TypeStructDeserializer.deserializeType(TestType.class, testString);
+	final TestType from = TypeStructMapper.deserializeType(TestType.class, testString);
 	final String jsonResult = cleanStringForAssertEqual(CommonJsonDao.getInstance(TestType.class).createJsonString(
 		from));
 	System.out.println(jsonResult);
