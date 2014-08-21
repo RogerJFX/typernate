@@ -29,6 +29,7 @@ select distinct id, test_data from
 
  -- Select str of first array entry (not index 0!!!)
  select ((itype).test_data[1]).str from tbl_typetest
+ -- for more information have a look at the view provided in pg_view_approach.sql Works!
  
  
  
@@ -47,3 +48,7 @@ select t.id, t.itype.iname, x.str from tbl_typetest t, table(t.itype.test_data) 
 -- for masochists or ORACLE experts (what's the difference???)
 select * from  (select rownum as rn, str from the (select cast(t.itype.test_data as type_test_int_string_varray) as x from tbl_typetest t where id = 21 ))  where rn = 2 ;
  
+-- Ok, giving it up..., have a look here, if you are unhappy (and want become even unhappier): 
+-- http://docs.oracle.com/cd/B28359_01/appdev.111/b28371/adobjcol.htm
+
+
