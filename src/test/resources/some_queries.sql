@@ -29,3 +29,21 @@ select distinct id, test_data from
 
  -- Select str of first array entry (not index 0!!!)
  select ((itype).test_data[1]).str from tbl_typetest
+ 
+ 
+ 
+-- ################################################## -- 
+-- ORACLE section.
+-- After running the unit tests, any of the following queries should result in at least one row.
+-- ################################################## -- 
+-- Same as Postgre
+select * from tbl_typetest where (itype).iname='admin';
+select * from tbl_typetest_single where ((itype).test_data).str='foo';
+-- Attention! We have to set an alias (here t)
+update tbl_typetest t set t.itype.iname = 'Hulk' where id = 1;
+update tbl_typetest_single t set t.itype.test_data.str = 'Hulk' where id = 1;
+select t.id, t.itype.iname from tbl_typetest t;
+select t.id, t.itype.iname, x.str from tbl_typetest t, table(t.itype.test_data) x;
+-- for masochists or ORACLE experts (what's the difference???)
+select * from  (select rownum as rn, str from the (select cast(t.itype.test_data as type_test_int_string_varray) as x from tbl_typetest t where id = 21 ))  where rn = 2 ;
+ 

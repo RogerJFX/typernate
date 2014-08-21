@@ -32,4 +32,12 @@ public @interface DbTypeObject {
      * @return Name of Entity field.
      */
     String target();
+
+    /**
+     * Only for ORACLE. And only if there is an Array of types as column in
+     * table. Postgres will ignore it.
+     * 
+     * @return Name of ORACLE specific varray type.
+     */
+    String varrayType() default "";
 }

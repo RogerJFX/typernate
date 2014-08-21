@@ -32,7 +32,10 @@ If there is a db type in your entity, just have it representated by a Java Objec
 
 @DbTypeObject
 
-There is one Parameter "target", that is mandatory. It should point to another member of your class representing a Type-Entity or a List of it. This entity never should be persisted, so don't annotate it with @Column (JPA). 
+There are two Parameters:
+
+1. target (mandatory): It should point to another member of your class representing a Type-Entity or a List of it. This entity never should be persisted, so don't annotate it with @Column in JPA. 
+2. varrayType (optional, default ""): only for ORACLE. Lets say we have a varray of types as table column. So let the Serializer know the name of this varray
 
 Typically we have something like this:
 
@@ -52,5 +55,15 @@ And the other way:
 
 EntitySerializer will translate *TestType myTestType* to *Object nameDoesNotMatter* before persiting.
 
+If target field is a Collection AND it's an ORACLE db, mind this:
 
+~~~~~~~~~~~
+@Column(name="myTypeFieldInDB")
+@DbTypeObject(target = "myTestType", varrayType="myVarrayNameInOracle")
+Object nameDoesNotMatter;
+// Ah! So here is our member we can work with further on.
+List<TestType> myTestType;
+~~~~~~~~~~~
+
+Note: ORACLE varrays are of fixed size. At the moment we do not care for the size of List. So make sure, your varray is big enough. In a later version, we might check this at the Java site.
 

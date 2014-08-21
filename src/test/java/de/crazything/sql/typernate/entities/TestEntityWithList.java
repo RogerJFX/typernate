@@ -13,7 +13,7 @@ public class TestEntityWithList {
     @Serial
     int id;
     @Column(name = "itype")
-    @DbTypeObject(target = "testType")
+    @DbTypeObject(target = "testType", varrayType = "type_test_varray")
     Object typeTest;
     @NotPersistent
     List<TestType> testType;

@@ -85,7 +85,8 @@ public class EntityAnalyzer {
 		    af.objectField = field;
 
 		    Field targetField;
-
+		    final String oraArray = field.getAnnotation(DbTypeObject.class).varrayType();
+		    af.oraVarray = oraArray;
 		    targetField = clazz.getDeclaredField(field.getAnnotation(DbTypeObject.class).target());
 		    targetField.setAccessible(true);
 		    af.typeField = targetField;
@@ -148,6 +149,8 @@ public class EntityAnalyzer {
 	 * Type of Collection entries, if it is a collection.
 	 */
 	private Class<?> collType;
+
+	private String oraVarray;
 	/**
 	 * Is it a collection?
 	 */
@@ -173,6 +176,9 @@ public class EntityAnalyzer {
 	    return this.collection;
 	}
 
+	public String getOraVarray() {
+	    return this.oraVarray;
+	}
     }
 
 }

@@ -2,7 +2,7 @@
 
 #### Typernate is a typesafe OR mapper for user defined database types. 
 
-##### Written in Java, works with PostgreSQL (beta) and ORACLE (devel).
+##### Written in Java, currently works with PostgreSQL and ORACLE.
 
 **Version: 0.1.1**
 

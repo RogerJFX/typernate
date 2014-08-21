@@ -63,7 +63,7 @@ public class EntitySerializer {
 		    anaField.getObjectField().set(
 			    obj,
 			    TypeSerializer.serializeTypeArray((Class<T>) anaField.getCollType(),
-				    (List<T>) targetField.get(obj), ""));
+				    (List<T>) targetField.get(obj), anaField.getOraVarray()));
 		} else {
 		    anaField.getObjectField().set(obj,
 			    TypeSerializer.serializeType((anaField.getTypeType()), targetField.get(obj)));

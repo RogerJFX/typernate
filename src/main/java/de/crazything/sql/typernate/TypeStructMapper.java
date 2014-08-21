@@ -35,6 +35,9 @@ public class TypeStructMapper {
      * @return List of Object of Type clazz.
      */
     static <T> List<T> deserializeTypeArray(final Class<T> clazz, final Array array) {
+	if (array == null) {
+	    return null;
+	}
 	final List<T> result = new ArrayList<T>();
 	try {
 	    final Object[] entries = (Object[]) array.getArray();
@@ -87,5 +90,4 @@ public class TypeStructMapper {
 	}
 	return result;
     }
-
 }
