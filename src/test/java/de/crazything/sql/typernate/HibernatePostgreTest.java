@@ -45,8 +45,13 @@ import de.crazything.sql.typernate.entities.TestEntity;
 
 @Test
 public class HibernatePostgreTest {
+    private static final boolean TEST_ENABLED = false;
+
     @BeforeTest
     private void init() throws NamingException {
+	if (!TEST_ENABLED) {
+	    return;
+	}
 	final PGPoolingDataSource ds = new PGPoolingDataSource();
 	ds.setDataSourceName("A Data Source");
 	ds.setServerName("localhost");
@@ -62,11 +67,14 @@ public class HibernatePostgreTest {
 
     @AfterTest
     public static void tearDownClass() throws Exception {
+	if (!TEST_ENABLED) {
+	    return;
+	}
 	final InitialContext ic = new InitialContext();
 	ic.unbind("testDS");
     }
 
-    @Test(enabled = false)
+    @Test(enabled = TEST_ENABLED)
     public void test1() {
 	final EntityManager entityManager = Persistence.createEntityManagerFactory("testPU").createEntityManager();
 	Assert.assertNotNull(entityManager);
