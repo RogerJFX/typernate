@@ -9,8 +9,8 @@ import javax.persistence.Persistence;
 import junit.framework.Assert;
 
 import org.postgresql.ds.PGPoolingDataSource;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.crazything.json.dao.CommonJsonDao;
@@ -47,7 +47,7 @@ import de.crazything.sql.typernate.entities.TestEntity;
 public class HibernatePostgreTest {
     private static final boolean TEST_ENABLED = false;
 
-    @BeforeTest
+    @BeforeClass
     private void init() throws NamingException {
 	if (!TEST_ENABLED) {
 	    return;
@@ -65,7 +65,7 @@ public class HibernatePostgreTest {
 	ic.bind("testDS", ds);
     }
 
-    @AfterTest
+    @AfterClass
     public static void tearDownClass() throws Exception {
 	if (!TEST_ENABLED) {
 	    return;
