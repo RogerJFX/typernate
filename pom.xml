@@ -31,10 +31,9 @@
 			<version>9.1-901-1.jdbc4</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- 
-		Download package from oracle.com, then run next line in folder:
-		mvn install:install-file -Dfile=ojdbc6.jar -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.3 -Dpackaging=jar -DgeneratePom=true
-		 -->
+		<!-- Download package from oracle.com, then run next line in folder: mvn 
+			install:install-file -Dfile=ojdbc6.jar -DgroupId=com.oracle -DartifactId=ojdbc6 
+			-Dversion=11.2.0.3 -Dpackaging=jar -DgeneratePom=true -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
@@ -54,6 +53,18 @@
 			<version>2.2.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.1.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>1.0.1.Final</version>
+			<scope>test</scope>
+		</dependency>		
 	</dependencies>
 
 </project>

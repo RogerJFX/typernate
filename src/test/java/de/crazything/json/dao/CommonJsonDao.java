@@ -1,8 +1,10 @@
 package de.crazything.json.dao;
 
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -28,6 +30,11 @@ public final class CommonJsonDao<T> {
      * Type tag. Ahh, f... it! RTFC!
      */
     private final Class<T> forClass;
+
+    /**
+     * Lazily instantatied.
+     */
+    private ParameterizedType listType;
 
     /**
      * Ctor.
@@ -70,6 +77,15 @@ public final class CommonJsonDao<T> {
 	// System.out.println(jsonString);
 	return new GsonBuilder().excludeFieldsWithModifiers(Modifier.PRIVATE).create()
 		.fromJson(jsonString, this.forClass);
+    }
+
+    public List<T> createJsonArray(final String jsonString) {
+	if (this.listType == null) {
+	    synchronized (this) {
+		this.listType = new ParameterizedTypeImpl(List.class, new Type[] { this.forClass }, null);
+	    }
+	}
+	return new Gson().fromJson(jsonString, this.listType);
     }
 
     /**
@@ -122,5 +138,33 @@ public final class CommonJsonDao<T> {
 	});
 	final Gson gson = gsonBuilder.create();
 	return gson.toJson(obj);
+    }
+
+    static class ParameterizedTypeImpl implements ParameterizedType {
+
+	private final Type rawType;
+	private final Type[] actualTypeArguments;
+	private final Type owner;
+
+	public ParameterizedTypeImpl(final Type rawType, final Type[] actualTypeArguments, final Type owner) {
+	    this.rawType = rawType;
+	    this.actualTypeArguments = actualTypeArguments;
+	    this.owner = owner;
+	}
+
+	@Override
+	public Type getRawType() {
+	    return this.rawType;
+	}
+
+	@Override
+	public Type[] getActualTypeArguments() {
+	    return this.actualTypeArguments;
+	}
+
+	@Override
+	public Type getOwnerType() {
+	    return this.owner;
+	}
     }
 }

@@ -64,7 +64,7 @@ public class TypeDeserializer {
      * @return A valid object.
      */
     public static <T> T deserializeType(final Class<T> clazz, final String rawData) {
-	System.out.println(rawData.toString());
+	// System.out.println(rawData.toString());
 	final AnalyzerResult analyzed = TypeAnalyzer.getResult(clazz);
 	final String objectData = parserHelper.stripQuotes(parserHelper.nextObject(rawData.toCharArray(), 0).result);
 	final char[] cData = objectData.toCharArray();
