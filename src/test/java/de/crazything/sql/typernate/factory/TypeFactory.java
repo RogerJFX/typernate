@@ -7,7 +7,7 @@ public class TypeFactory {
 
     public static final String JSON_TEST_TYPE_WITH_LIST = "{\"id\":123456,\"name\":\"admin\",\"list\":[{\"innerId\":1,\"string\":\"foo\"},{\"innerId\":2,\"string\":\"bar\"}]}";
 
-    public static final String JSON_TEST_ENTITY = "{\"testType\":{\"id\":123456,\"name\":\"admin\",\"list\":[{\"innerId\":1,\"string\":\"foo\"},{\"innerId\":1}]}}";
+    public static final String JSON_TEST_ENTITY = "{\"testType\":{\"id\":123456,\"name\":\"admin\",\"list\":[{\"innerId\":1,\"string\":\"foopppppppppppppppppppppppppppppppp\"},{\"innerId\":1,\"string\":\"bar\"}]}}";
 
     public static final String JSON_TEST_ENTITY_TYPE = "{\"id\":123456,\"name\":\"admin\",\"list\":[{\"innerId\":1,\"string\":\"foo\"},{\"innerId\":1}]}";
 

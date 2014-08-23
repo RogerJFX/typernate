@@ -61,6 +61,12 @@ public class OraTypeSerializerTest {
 
 	final List<TestEntity> res = DbManager.fetch("mydb", TestEntity.class,
 		"select * from tbl_typetest where id=(select max(id) from tbl_typetest)");
+	// final TestEntity te = res.get(0);
+	// final byte[] ba = ((oracle.sql.STRUCT) te.typeTest).getBytes();
+	// for (final byte b : ba) {
+	// System.out.print(b);
+	// System.out.print('_');
+	// }
 	final TestEntity deserObj = EntityDeserializer.deserializeEntity(TestEntity.class, res.get(0), true, true);
 	Assert.assertEquals(deserObj.getTestType().toString(), serObj.getTestType().toString());
     }

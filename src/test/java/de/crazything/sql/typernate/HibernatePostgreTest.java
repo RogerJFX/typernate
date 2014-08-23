@@ -13,8 +13,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.crazything.json.dao.CommonJsonDao;
 import de.crazything.sql.typernate.entities.TestEntity;
+import de.crazything.sql.typernate.factory.TypeFactory;
 
 /**
  * Before running this Test, you should start your rmiregistry.
@@ -42,7 +42,7 @@ import de.crazything.sql.typernate.entities.TestEntity;
  * @author roger
  * 
  */
-
+// Does not work. I'm stuck. F... JPA!
 @Test
 public class HibernatePostgreTest {
     private static final boolean TEST_ENABLED = false;
@@ -78,10 +78,18 @@ public class HibernatePostgreTest {
     public void test1() {
 	final EntityManager entityManager = Persistence.createEntityManagerFactory("testPU").createEntityManager();
 	Assert.assertNotNull(entityManager);
-	TestEntity found = entityManager.find(TestEntity.class, 12);
-	Assert.assertNotNull(found);
-	// System.out.println(found.getId() + "--->" + found.typeTest);
-	found = EntityDeserializer.deserializeEntity(TestEntity.class, found, true);
-	System.out.println(CommonJsonDao.getInstance(TestEntity.class).createJsonString(found));
+	// TestEntity found = entityManager.find(TestEntity.class, 12);
+	// Assert.assertNotNull(found);
+	// // System.out.println(found.getId() + "--->" + found.typeTest);
+	// found = EntityDeserializer.deserializeEntity(TestEntity.class, found,
+	// true);
+	// System.out.println(CommonJsonDao.getInstance(TestEntity.class).createJsonString(found));
+
+	final TestEntity testObj = TypeFactory.generateObject(TestEntity.class, TypeFactory.JSON_TEST_ENTITY);
+	final TestEntity serObj = EntitySerializer.serializeEntity(TestEntity.class, testObj);
+	System.out.println(serObj.typeTest.toString());
+	entityManager.getTransaction().begin();
+	entityManager.persist(serObj);
+	entityManager.getTransaction().commit();
     }
 }
