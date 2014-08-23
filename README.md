@@ -13,7 +13,7 @@
 #### Why Typernate?
 + Typernate combines the benefits of NoSQL with those of a common relational database like Postgres or ORACLE.
 + Typernate is typesafe without having to validate Objects in a strange layer. Typesafety is guaranteed by the layer it belongs to: by the database itself.
-+ Typernate should work with JPA.
++ Typernate should work with JPA. **Update:** Seem's it won't. But isn't JPA a pain in the ars anyway? 
 + Using Typernate may dramatically increase performance in comparison to JPA and common database modelling.
 
 #### How did it happen? What's the idea?
