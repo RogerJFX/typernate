@@ -1,5 +1,7 @@
 package de.crazything.sql.typernate.entities;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ import de.crazything.sql.typernate.annotation.DbTypeObject;
  */
 @Table("tbl_typetest")
 @Entity
+@Access(AccessType.FIELD)
 @javax.persistence.Table(name = "tbl_typetest")
 public class TestEntity {
     /**
@@ -44,7 +47,8 @@ public class TestEntity {
     @javax.persistence.Column(name = "itype", columnDefinition = "type_test")
     // This will fail with ORACLE, since we get a struct here.
     // @Type(type = "text")
-    // @Basic
+    // @ElementCollection
+    // @Transient
     public Object typeTest;
     /**
      * Our nested entity. EntitySerializer will translate this to Object
@@ -72,4 +76,13 @@ public class TestEntity {
     public void setTestType(final TestType testType) {
 	this.testType = testType;
     }
+
+    public void setTypeTest(final Object typeTest) {
+	this.typeTest = typeTest;
+    }
+
+    public Object getTypeTest() {
+	return this.typeTest;
+    }
+
 }

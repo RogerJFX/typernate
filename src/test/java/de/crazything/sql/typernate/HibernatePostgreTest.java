@@ -4,6 +4,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import junit.framework.Assert;
@@ -76,8 +77,12 @@ public class HibernatePostgreTest {
 
     @Test(enabled = TEST_ENABLED)
     public void test1() {
-	final EntityManager entityManager = Persistence.createEntityManagerFactory("testPU").createEntityManager();
+	final EntityManagerFactory factory = Persistence.createEntityManagerFactory("testPU");
+	factory.unwrap(TestEntity.class);
+	final EntityManager entityManager = factory.createEntityManager();
 	Assert.assertNotNull(entityManager);
+	// final Session session = entityManager.unwrap(Session.class);
+
 	// TestEntity found = entityManager.find(TestEntity.class, 12);
 	// Assert.assertNotNull(found);
 	// // System.out.println(found.getId() + "--->" + found.typeTest);
@@ -85,11 +90,12 @@ public class HibernatePostgreTest {
 	// true);
 	// System.out.println(CommonJsonDao.getInstance(TestEntity.class).createJsonString(found));
 
-	final TestEntity testObj = TypeFactory.generateObject(TestEntity.class, TypeFactory.JSON_TEST_ENTITY);
-	final TestEntity serObj = EntitySerializer.serializeEntity(TestEntity.class, testObj);
-	System.out.println(serObj.typeTest.toString());
+	TypeFactory.generateObject(TestEntity.class, TypeFactory.JSON_TEST_ENTITY);
+	// final TestEntity serObj =
+	// EntitySerializer.serializeEntity(TestEntity.class, testObj);
+	// System.out.println(serObj.typeTest.toString());
 	entityManager.getTransaction().begin();
-	entityManager.persist(serObj);
+	// session.persist(testObj);
 	entityManager.getTransaction().commit();
     }
 }

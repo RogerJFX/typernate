@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.0.1.Final</version>
+			<version>4.3.6.Final</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -64,7 +64,34 @@
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
 			<version>1.0.1.Final</version>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>javax.jdo</groupId>
+			<artifactId>jdo-api</artifactId>
+			<version>3.1-rc1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.datanucleus</groupId>
+			<artifactId>datanucleus-core</artifactId>
+			<version>4.0.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+	<groupId>org.datanucleus</groupId>
+	<artifactId>datanucleus-rdbms</artifactId>
+	<version>4.0.1</version>
+	<scope>test</scope>
+</dependency>
+		
+
+		<dependency>
+			<groupId>org.datanucleus</groupId>
+			<artifactId>datanucleus-api-jdo</artifactId>
+			<version>4.0.1</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 </project>

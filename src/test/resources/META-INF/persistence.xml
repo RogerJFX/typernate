@@ -5,7 +5,7 @@
 	version="1.0">
 
 	<persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<non-jta-data-source>rmi://localhost:1099/testDS</non-jta-data-source>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
@@ -16,7 +16,7 @@
 	</persistence-unit>
 	
 	<persistence-unit name="testPUOra" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<non-jta-data-source>rmi://localhost:1099/testDSOra</non-jta-data-source>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
@@ -25,4 +25,23 @@
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 		</properties>
 	</persistence-unit>
+	
+	    <!-- JDO tutorial "unit" -->
+    <persistence-unit name="jdoPostgre">
+    	<!-- 
+        <class>org.datanucleus.samples.jdo.tutorial.Inventory</class>
+        <class>org.datanucleus.samples.jdo.tutorial.Product</class>
+        <class>org.datanucleus.samples.jdo.tutorial.Book</class>
+         -->
+        <exclude-unlisted-classes/>
+        <properties>
+            <property name="javax.jdo.option.ConnectionURL" value="jdbc:postgresql://localhost:5432/typernate"/>
+            <property name="javax.jdo.option.ConnectionDriverName" value="org.postgresql.Driver"/>
+            <property name="javax.jdo.option.ConnectionUserName" value="roger"/>
+            <property name="javax.jdo.option.ConnectionPassword" value="sf3"/>
+            <property name="datanucleus.schema.autoCreateAll" value="false"/>
+            <property name="datanucleus.schema.validateTables" value="false"/>
+            <property name="datanucleus.schema.validateConstraints" value="false"/>
+        </properties>
+    </persistence-unit>
 </persistence>
